@@ -23,7 +23,7 @@ public class Room implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
+	private Integer roomNumber;
 	private Integer capacity;
 	private Integer singleBeds;
 	private Integer coupleBeds;
@@ -112,6 +112,14 @@ public class Room implements Serializable{
 	
 	public List<Booking> getBookings() {
 		return bookings;
+	}	
+
+	public Integer getRoomNumber() {
+		return roomNumber;
+	}
+
+	public void setRoomNumber(Integer roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 
 	@Override

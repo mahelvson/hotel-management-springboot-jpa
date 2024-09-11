@@ -120,4 +120,14 @@ public class Booking implements Serializable{
 	public List<Room> getRooms() {
 		return rooms;
 	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+	
+	
 }

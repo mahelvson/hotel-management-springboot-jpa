@@ -3,6 +3,7 @@ package com.hotel.manager.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.hotel.manager.enums.PaymentMethod;
 import com.hotel.manager.enums.PaymentStatus;
 
 import jakarta.persistence.Entity;
@@ -26,7 +27,7 @@ public class Payment implements Serializable {
 	private Long id;
 	
 	private Double value;
-	private String method;
+	private PaymentMethod method;
 	
 	@OneToOne
 	@JoinColumn(name="booking_id")
@@ -38,7 +39,7 @@ public class Payment implements Serializable {
 	public Payment() {
 		
 	}
-	public Payment(Long id, Double value, String method, Booking booking, PaymentStatus paymentStatus) {
+	public Payment(Long id, Double value, PaymentMethod method, Booking booking, PaymentStatus paymentStatus) {
 		this.id = id;
 		this.value = value;
 		this.method = method;
@@ -61,11 +62,11 @@ public class Payment implements Serializable {
 		this.value = value;
 	}
 	
-	public String getMethod() {
+	public PaymentMethod getMethod() {
 		return method;
 	}
 	
-	public void setMethod(String method) {
+	public void setMethod(PaymentMethod method) {
 		this.method = method;
 	}
 	
@@ -100,8 +101,5 @@ public class Payment implements Serializable {
 			return false;
 		Payment other = (Payment) obj;
 		return Objects.equals(id, other.id);
-	}
-	
-	
-	
+	}	
 }

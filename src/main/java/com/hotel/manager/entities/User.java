@@ -25,7 +25,7 @@ public abstract class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
+	private String name;
 	private String email;
 	private String password;
 	
@@ -36,9 +36,9 @@ public abstract class User implements Serializable {
 		
 	}
 
-	public User(Long id, String nome, String email, String password, UserType userType) {
+	public User(Long id, String name, String email, String password, UserType userType) {
 		this.id = id;
-		this.nome = nome;
+		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.userType = userType;
@@ -52,12 +52,12 @@ public abstract class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
 
 	public String getEmail() {
