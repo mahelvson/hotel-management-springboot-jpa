@@ -1,6 +1,7 @@
 package com.hotel.manager.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +29,7 @@ public class Room implements Serializable{
 	private Integer singleBeds;
 	private Integer coupleBeds;
 	private Double diaryValue;
-	private Boolean available;
+	private List<LocalDate> bookedIn = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="hotel_id")
@@ -41,17 +42,16 @@ public class Room implements Serializable{
 		
 	}
 	
-	public Room(Long id, Integer capacity, Integer singleBeds, Integer coupleBeds, Double diaryValue, Boolean available,
-			Hotel hotel) {
-		
+	public Room(Long id, Integer capacity, Integer singleBeds, Integer coupleBeds, Double diaryValue,
+			Hotel hotel, Integer roomNumber) {
 		
 		this.id = id;
 		this.capacity = capacity;
 		this.singleBeds = singleBeds;
 		this.coupleBeds = coupleBeds;
 		this.diaryValue = diaryValue;
-		this.available = available;
 		this.hotel = hotel;
+		this.roomNumber = roomNumber;
 	}
 
 	public Long getId() {
@@ -94,12 +94,12 @@ public class Room implements Serializable{
 		this.diaryValue = diaryValue;
 	}
 
-	public Boolean getAvailable() {
-		return available;
+	public List<LocalDate> getBookedIne() {
+		return bookedIn;
 	}
 
-	public void setAvailable(Boolean available) {
-		this.available = available;
+	public void setBookedIn(List<LocalDate> dates) {
+		this.bookedIn = dates;
 	}
 
 	public Hotel getHotel() {

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.manager.enums.BookingStatus;
 
 import jakarta.persistence.CascadeType;
@@ -36,6 +37,7 @@ public class Booking implements Serializable{
 	
 	@ManyToOne
 	@JoinColumn(name="client_id")
+	@JsonIgnore
 	private Client client;
 	
 	@Enumerated(EnumType.STRING)
@@ -59,7 +61,6 @@ public class Booking implements Serializable{
 	
 	public Booking(Long id, LocalDate dateCheckIn, LocalDate dateCheckOut, Client client, BookingStatus bookingStatus,
 			Double total, List<Room> rooms) {
-		
 		this.id = id;
 		this.dateCheckIn = dateCheckIn;
 		this.dateCheckOut = dateCheckOut;

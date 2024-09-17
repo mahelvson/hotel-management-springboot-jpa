@@ -3,6 +3,7 @@ package com.hotel.manager.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.manager.enums.UserType;
 
 import jakarta.persistence.CascadeType;
@@ -17,6 +18,7 @@ public class Client extends User{
 	private static final long serialVersionUID = 1L;
 	
 	@OneToMany(mappedBy="client", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<Booking> bookings = new ArrayList<>();
 	
 	public Client() {

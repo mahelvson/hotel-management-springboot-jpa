@@ -26,7 +26,7 @@ public class Payment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Double value;
+	private Double paymentValue;
 	private PaymentMethod method;
 	
 	@OneToOne
@@ -41,7 +41,7 @@ public class Payment implements Serializable {
 	}
 	public Payment(Long id, Double value, PaymentMethod method, Booking booking, PaymentStatus paymentStatus) {
 		this.id = id;
-		this.value = value;
+		this.paymentValue = value;
 		this.method = method;
 		this.paymentStatus = paymentStatus;
 	}
@@ -55,11 +55,11 @@ public class Payment implements Serializable {
 	}
 	
 	public Double getValue() {
-		return value;
+		return paymentValue;
 	}
 	
 	public void setValue(Double value) {
-		this.value = value;
+		this.paymentValue = value;
 	}
 	
 	public PaymentMethod getMethod() {

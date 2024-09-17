@@ -8,7 +8,7 @@ import com.hotel.manager.enums.PaymentStatus;
 
 public class BookingReport {
 
-    private Long bookingId;
+    private Long id;
     private String clientName;
     private String clientEmail;
     private LocalDate dateCheckIn;
@@ -21,10 +21,10 @@ public class BookingReport {
     public BookingReport() {
     }
 
-    public BookingReport(Long bookingId, String clientName, String clientEmail, LocalDate dateCheckIn,
+    public BookingReport(Long id, String clientName, String clientEmail, LocalDate dateCheckIn,
     		LocalDate dateCheckOut, Double totalAmount, List<Integer> roomNumbers,
                          PaymentStatus paymentStatus, PaymentMethod paymentMethod) {
-        this.bookingId = bookingId;
+        this.id = id;
         this.clientName = clientName;
         this.clientEmail = clientEmail;
         this.dateCheckIn = dateCheckIn;
@@ -38,11 +38,11 @@ public class BookingReport {
 	
 	// Getters e Setters
     public Long getBookingId() {
-        return bookingId;
+        return id;
     }
 
-    public void setBookingId(Long bookingId) {
-        this.bookingId = bookingId;
+    public void setBookingId(Long id) {
+        this.id = id;
     }
 
     public String getClientName() {

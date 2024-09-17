@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hotel.manager.entities.Client;
+import com.hotel.manager.enums.UserType;
 import com.hotel.manager.repositories.ClientRepository;
 
 @Service
@@ -34,5 +35,10 @@ public class ClientService {
 	
 	public void deleteById(Long id) {
 		clientRepository.deleteById(id);
+	}
+	
+	public Client createClient(String email) {
+		Client client = clientRepository.findByEmail(email).orElse(new Client(null, "Default Name", email, "12345", UserType.CLIENT ));
+		return client;
 	}
 }

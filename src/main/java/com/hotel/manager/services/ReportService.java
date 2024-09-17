@@ -1,4 +1,4 @@
-package com.hotel.manager.reports;
+package com.hotel.manager.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 import com.hotel.manager.entities.Booking;
 import com.hotel.manager.enums.PaymentMethod;
 import com.hotel.manager.enums.PaymentStatus;
+import com.hotel.manager.reports.BookingReport;
 import com.hotel.manager.repositories.BookingRepository;
 
 @Service
-public class Report {
+public class ReportService {
 
     @Autowired
     private BookingRepository bookingRepository;
