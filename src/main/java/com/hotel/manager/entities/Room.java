@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,13 +32,15 @@ public class Room implements Serializable{
 	private Integer singleBeds;
 	private Integer coupleBeds;
 	private Double diaryValue;
+	@ElementCollection
 	private List<LocalDate> bookedIn = new ArrayList<>();
 	
 	@ManyToOne
 	@JoinColumn(name="hotel_id")
 	private Hotel hotel;
 	
-	@ManyToMany(mappedBy="rooms")
+	@OneToMany(mappedBy="room")
+	@JsonIgnore
 	private List<Booking> bookings = new ArrayList<>();
 	
 	public Room() {
@@ -94,7 +99,7 @@ public class Room implements Serializable{
 		this.diaryValue = diaryValue;
 	}
 
-	public List<LocalDate> getBookedIne() {
+	public List<LocalDate> getBookedIn() {
 		return bookedIn;
 	}
 

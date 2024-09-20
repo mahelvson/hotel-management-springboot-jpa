@@ -1,8 +1,6 @@
 package com.hotel.manager.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +26,8 @@ public class ReportService {
         }
 
         Booking booking = bookingOpt.get();
-
-        List<Integer> roomNumbers = booking.getRooms()
-                                           .stream()
-                                           .map(room -> room.getRoomNumber())
-                                           .collect(Collectors.toList());
-
+        
+        Integer roomNumber = booking.getRoom().getRoomNumber();
 
         PaymentStatus paymentStatus = booking.getPayment() != null
                 ? booking.getPayment().getPaymentStatus()
@@ -50,7 +44,7 @@ public class ReportService {
                 booking.getDateCheckIn(),
                 booking.getDateCheckOut(),
                 booking.getTotal(),
-                roomNumbers,
+                roomNumber,
                 paymentStatus,
                 paymentMethod
         );

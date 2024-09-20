@@ -8,7 +8,8 @@ import com.hotel.manager.entities.Hotel;
 
 public interface HotelRepository extends JpaRepository<Hotel, Long> {
 
-	Optional<Hotel> findByName(String name);
+	Optional<Hotel> findByHotelName(String hotelName);
 	Optional<Hotel> findByCity(String city);
+	Optional<Hotel> findByHotelNameAndCity(String hotelName, String city);
 
 }

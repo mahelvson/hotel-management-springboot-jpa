@@ -1,7 +1,6 @@
 package com.hotel.manager.reports;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import com.hotel.manager.enums.PaymentMethod;
 import com.hotel.manager.enums.PaymentStatus;
@@ -14,7 +13,7 @@ public class BookingReport {
     private LocalDate dateCheckIn;
     private LocalDate dateCheckOut;
     private Double totalAmount;
-    private List<Integer> roomNumbers;
+    private Integer roomNumber;
     private PaymentStatus paymentStatus;
     private PaymentMethod paymentMethod;
 
@@ -22,7 +21,7 @@ public class BookingReport {
     }
 
     public BookingReport(Long id, String clientName, String clientEmail, LocalDate dateCheckIn,
-    		LocalDate dateCheckOut, Double totalAmount, List<Integer> roomNumbers,
+    		LocalDate dateCheckOut, Double totalAmount, Integer roomNumber,
                          PaymentStatus paymentStatus, PaymentMethod paymentMethod) {
         this.id = id;
         this.clientName = clientName;
@@ -30,7 +29,7 @@ public class BookingReport {
         this.dateCheckIn = dateCheckIn;
         this.dateCheckOut = dateCheckOut;
         this.totalAmount = totalAmount;
-        this.roomNumbers = roomNumbers;
+        this.roomNumber = roomNumber;
         this.paymentStatus = paymentStatus;
         this.paymentMethod = paymentMethod;
     }
@@ -85,8 +84,8 @@ public class BookingReport {
         this.totalAmount = totalAmount;
     }
 
-    public List<Integer> getRoomNumbers() {
-        return roomNumbers;
+    public Integer getRoomNumber() {
+        return roomNumber;
     }
 
     public PaymentStatus getPaymentStatus() {

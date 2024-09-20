@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,23 +23,28 @@ public class Hotel implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	private String hotelName;
 	private String city;
 	private Integer stars;
 	
 	@OneToMany(mappedBy="hotel", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<Room> rooms;
 	
 	public Hotel() {
 		
 	}
 	
-	public Hotel(Long id, String name, String city, Integer stars) {
+	public Hotel(Long id, String hotelName, String city, Integer stars) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.hotelName = hotelName;
 		this.city = city;
 		this.stars = stars;
+	}
+	
+	public List<Room> getRooms() {
+		return rooms;
 	}
 	
 	public Long getId() {
@@ -48,12 +55,12 @@ public class Hotel implements Serializable{
 		this.id = id;
 	}
 	
-	public String getname() {
-		return name;
+	public String getName() {
+		return hotelName;
 	}
 	
-	public void setname(String name) {
-		this.name = name;
+	public void setName(String hotelName) {
+		this.hotelName = hotelName;
 	}
 	
 	public String getCity() {
@@ -88,9 +95,4 @@ public class Hotel implements Serializable{
 		Hotel other = (Hotel) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
-
 }

@@ -10,6 +10,8 @@ import com.hotel.manager.entities.Client;
 import com.hotel.manager.enums.UserType;
 import com.hotel.manager.repositories.ClientRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class ClientService {
 	@Autowired
@@ -37,8 +39,29 @@ public class ClientService {
 		clientRepository.deleteById(id);
 	}
 	
-	public Client createClient(String email) {
+	public Client createClient(String name, String email, String password) {
 		Client client = clientRepository.findByEmail(email).orElse(new Client(null, "Default Name", email, "12345", UserType.CLIENT ));
-		return client;
+		client.setName(name);
+		client.setPassword(password);
+		client.setUserType(UserType.CLIENT);
+		return this.save(client);
+		
 	}
+	@Transactional
+	public void deleteByEmail(String email) {
+		Client client = clientRepository.findByEmail(email)
+				.orElseThrow(() -> new RuntimeException("Client " + email + " not found!"));
+		clientRepository.deleteByEmail(client.getEmail());
+	}
+	@Transactional
+	public Client updateClient(String name, String email, String password) {
+		Client client = clientRepository.findByEmail(email)
+				.orElseThrow(()-> new RuntimeException("Client not found"));
+		client.setEmail(email);
+		client.setName(name);
+		client.setPassword(password);
+		
+		return this.save(client);
+	}
+
 }

@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.manager.entities.Payment;
-import com.hotel.manager.services.PaymentService;
+import com.hotel.manager.facade.PaymentFacade;
 
 @RestController
 @RequestMapping(value="/payments")
 public class PaymentResource {
 	
 	@Autowired
-	private PaymentService paymentService;
+	private PaymentFacade paymentFacade;
 	
 	@GetMapping
 	public ResponseEntity<List<Payment>> findAll() {
-		List<Payment> payment = paymentService.findAll();		
+		List<Payment> payment = paymentFacade.getAllPayments();		
 		return ResponseEntity.ok().body(payment);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/id/{id}")
     public ResponseEntity<Payment> findById(@PathVariable Long id) {
-		Payment payment = paymentService.findById(id);
+		Payment payment = paymentFacade.getPaymentById(id);
         return ResponseEntity.ok().body(payment);
     }
 }

@@ -8,4 +8,5 @@ import com.hotel.manager.entities.Manager;
 
 public interface ManagerRepository extends JpaRepository<Manager, Long>{
 	Optional<Manager> findByEmail(String email);
+	Optional<Manager> deleteByEmail(String email);
 }

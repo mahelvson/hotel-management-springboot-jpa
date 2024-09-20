@@ -26,11 +26,11 @@ import com.hotel.manager.services.BookingService;
 public class TesteConfig implements CommandLineRunner {
 
 	@Autowired
-	private ClientRepository clientRepository; // injecao de dependencia -> associa instancia
+	private ClientRepository clientRepository; 
 	@Autowired
-	private ManagerRepository managerRepository; // injecao de dependencia -> associa instancia
+	private ManagerRepository managerRepository; 
 	@Autowired
-	private ReceptionistRepository receptionistRepository; // injecao de dependencia -> associa instancia
+	private ReceptionistRepository receptionistRepository;
 	@Autowired
 	private HotelRepository hotelRepository;
 	@Autowired
@@ -66,7 +66,6 @@ public class TesteConfig implements CommandLineRunner {
 		Receptionist rec2 = new Receptionist(null, "Arthur", "arthur@gmail.com", "12345", UserType.RECEPTIONIST);
 		receptionistRepository.saveAll(Arrays.asList(rec1, rec2));
 		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2024, 8, 10), LocalDate.of(2024, 9, 15),
-				1500.00);
-		
+				1500.00, 4);
 	}
 }

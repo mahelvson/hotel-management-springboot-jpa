@@ -11,9 +11,10 @@ import com.hotel.manager.entities.Booking;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-	@Query("SELECT b FROM Booking b JOIN b.rooms r WHERE r.id = :roomId AND "
-			+ "(b.dateCheckIn <= :checkOut AND b.dateCheckOut >= :checkIn)")
+	@Query("SELECT b FROM Booking b WHERE b.room.id = :roomId AND "
+	        + "(b.dateCheckIn <= :checkOut AND b.dateCheckOut >= :checkIn)")
 	List<Booking> findConflictingBookings(@Param("roomId") Long roomId, @Param("checkIn") LocalDate checkIn,
-			@Param("checkOut") LocalDate checkOut);
+	        @Param("checkOut") LocalDate checkOut);
+
 
 }

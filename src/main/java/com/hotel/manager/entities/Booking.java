@@ -2,8 +2,6 @@ package com.hotel.manager.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.manager.enums.BookingStatus;
@@ -16,8 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -44,13 +40,9 @@ public class Booking implements Serializable{
 	private BookingStatus bookingStatus;
 	private Double total;
 	
-	@ManyToMany
-	@JoinTable(
-			name="tb_booking_room",
-			joinColumns = @JoinColumn(name="booking_id"),
-			inverseJoinColumns = @JoinColumn(name="room_id")
-	)
-	private List<Room> rooms = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "room_id")
+	private Room room;
 	
 	@OneToOne(mappedBy="booking", cascade = CascadeType.ALL)
 	private Payment payment;
@@ -59,17 +51,26 @@ public class Booking implements Serializable{
 		
 	}
 	
+	private Integer guestsNumber;
+	
 	public Booking(Long id, LocalDate dateCheckIn, LocalDate dateCheckOut, Client client, BookingStatus bookingStatus,
-			Double total, List<Room> rooms) {
+			Double total, Room room, Integer guestsNumber) {
 		this.id = id;
 		this.dateCheckIn = dateCheckIn;
 		this.dateCheckOut = dateCheckOut;
 		this.client = client;
 		this.bookingStatus = bookingStatus;
 		this.total = total;
-		this.rooms = rooms;
+		this.room = room;
+		this.guestsNumber = guestsNumber;
 	}
 
+	public Integer getGuestsNumber() {
+		return this.guestsNumber;
+	}
+	public void setGuestsNumber(Integer guestsNumber) {
+		this.guestsNumber = guestsNumber;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -118,8 +119,12 @@ public class Booking implements Serializable{
 		this.total = total;
 	}
 
-	public List<Room> getRooms() {
-		return rooms;
+	public Room getRoom() {
+		return room;
+	}
+	
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	public Payment getPayment() {
