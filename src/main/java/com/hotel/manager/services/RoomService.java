@@ -45,7 +45,7 @@ public class RoomService {
 		List<Room> rooms = hotel.getRooms();
 		for (Room room : rooms) {
 			if (roomNumber == room.getRoomNumber()) {
-				throw new RuntimeException("Room "+ roomNumber +" already exists");
+				throw new RuntimeException("Room "+ roomNumber + " already exists");
 			}
 		}
 		Room room = new Room(null, capacity, singleBeds, coupleBeds, diaryValue, hotel, roomNumber);
