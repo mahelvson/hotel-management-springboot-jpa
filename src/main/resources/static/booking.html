@@ -111,7 +111,7 @@
         window.location.href = "/"; // Redireciona de volta à página principal se não houver dados
       }
       document.addEventListener("DOMContentLoaded", function() {
-        const confirmButton = document.getElementById("confirmButton");
+        const confirmButton = document.getElementById("confirmBtn");
 
         if (confirmButton) {
 
@@ -122,6 +122,7 @@
                   );
                   const checkIn = localStorage.getItem("checkIn");
                   const checkOut = localStorage.getItem("checkOut");
+                  const guestsNumber = localStorage.getItem("guestsNumber");
       
                   if (!selectedRoom || !checkIn || !checkOut) {
                     alert("Erro ao recuperar os dados da reserva.");
@@ -140,7 +141,8 @@
                     roomId: selectedRoom.id,
                     checkIn: checkIn,
                     checkOut: checkOut,
-                    total: calculateTotal(checkIn, checkOut, selectedRoom.diaryValue), // Função para calcular o total
+                    total: calculateTotal(checkIn, checkOut, selectedRoom.diaryValue),
+                    guestsNumber: Number(guestsNumber), // Função para calcular o total
                   };
       
                   // Faz a requisição POST para criar a reserva

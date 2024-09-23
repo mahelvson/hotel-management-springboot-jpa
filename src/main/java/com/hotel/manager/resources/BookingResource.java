@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.manager.dto.BookingDTO;
 import com.hotel.manager.entities.Booking;
 import com.hotel.manager.exceptions.RoomUnavailableException;
 import com.hotel.manager.facade.BookingFacade;
@@ -39,9 +41,10 @@ public class BookingResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Booking> createBooking(@RequestParam Long clientId, @RequestParam Long roomId,
-			@RequestParam LocalDate checkIn, @RequestParam LocalDate checkOut, @RequestParam Double total, @RequestParam Integer guestsNumber) {
-		Booking booking = bookingFacade.createBooking(clientId, roomId, checkIn, checkOut, total, guestsNumber);
+	//public ResponseEntity<Booking> createBooking(@RequestParam Long clientId, @RequestParam Long roomId,
+	//		@RequestParam LocalDate checkIn, @RequestParam LocalDate checkOut, @RequestParam Double total, @RequestParam Integer guestsNumber) {
+	public ResponseEntity<Booking> createBooking(@RequestBody BookingDTO bookingData) {
+		Booking booking = bookingFacade.createBooking(bookingData.getClientId(), bookingData.getRoomId(), bookingData.getCheckIn(), bookingData.getCheckOut(), bookingData.getTotal(), bookingData.getGuestsNumber());
 		return ResponseEntity.ok(booking);
 	}
 	

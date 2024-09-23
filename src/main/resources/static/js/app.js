@@ -34,7 +34,6 @@ async function fetchHotels() {
       hotelSelect.addEventListener("change", () => {
         const selectedHotel = selectedHotel.value;
       });
-
       const checkIn = document.getElementById("checkin").value;
       const checkOut =
         document.getElementById("checkout").value;
@@ -129,8 +128,10 @@ async function fetchHotels() {
         localStorage.setItem('selectedRoom', JSON.stringify(room));
         const checkIn = document.getElementById('checkin').value;
         const checkOut = document.getElementById('checkout').value;
+        const guestsNumber = Number(document.getElementById('guests').value);
         localStorage.setItem('checkIn', checkIn);
         localStorage.setItem('checkOut', checkOut);
+        localStorage.setItem('guestsNumber', guestsNumber);
         window.location.href = "http://localhost:8080/prebooking";
     }
     document.querySelectorAll('.reservar-btn').forEach(button => {
