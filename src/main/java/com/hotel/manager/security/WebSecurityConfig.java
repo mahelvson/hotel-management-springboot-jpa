@@ -10,16 +10,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable()) // Desabilita CSRF. Pode ser habilitado se precisar.
-            .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().permitAll() // Permite todas as requisições sem autenticação
-            )
-            .formLogin(login -> login.disable()) // Desabilita a página de login
-            .logout(logout -> logout.disable()); // Desabilita a funcionalidade de logout
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+				.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll()
+				).headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())
+				).formLogin(login -> login.disable())
+				.logout(logout -> logout.disable());
 
-        return http.build();
-    }
+		return http.build();
+	}
 }

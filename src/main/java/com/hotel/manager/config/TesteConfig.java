@@ -52,10 +52,10 @@ public class TesteConfig implements CommandLineRunner {
 		hotelRepository.save(hotel1);
 		hotelRepository.save(hotel2);
 
-		Room room1 = new Room(null, 4, 2, 1, 220.20, hotel1, 100);
-		Room room2 = new Room(null, 2, 0, 1, 233.20, hotel1, 200);
-		Room room3 = new Room(null, 4, 2, 1, 240.20, hotel2, 1234);
-		Room room4 = new Room(null, 2, 2, 0, 224.20, hotel2, 4321);
+		Room room1 = new Room(null, 2, 1, 220.20, hotel1, 100);
+		Room room2 = new Room(null, 0, 1, 233.20, hotel1, 200);
+		Room room3 = new Room(null, 2, 1, 240.20, hotel2, 1234);
+		Room room4 = new Room(null, 2, 0, 224.20, hotel2, 4321);
 
 		roomRepository.saveAll(Arrays.asList(room1, room2, room3, room4));
 

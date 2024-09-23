@@ -1,21 +1,16 @@
 async function fetchHotels() {
     try {
-      // Realize a requisição GET para buscar a lista de cidades
       const response = await fetch(
         "http://localhost:8080/hotels"
-      ); // Substitua pelo endpoint correto
+      );
       if (!response.ok) {
         throw new Error("Erro ao buscar hotéis");
       }
 
       const hotels = await response.json();
-
-      // Encontre o elemento <select> e limpe-o
       const select = document.getElementById("hotel");
       select.innerHTML =
-        '<option value="" disabled selected>Selecione o hotel</option>'; // Reseta o select
-
-      // Adicione as opções ao <select>
+        '<option value="" disabled selected>Selecione o hotel</option>';
       hotels.forEach((hotel) => {
         const option = document.createElement("option");
         option.value = hotel.id;
@@ -31,8 +26,6 @@ async function fetchHotels() {
       console.error("Erro ao preencher o select:", error);
     }
   }
-
-  // Chame a função quando a página carregar
   document.addEventListener("DOMContentLoaded", fetchHotels);
 
   async function fetchAvailableRooms(hotelId) {
@@ -115,12 +108,36 @@ async function fetchHotels() {
                                 <strong>Hotel:</strong> ${room.hotel.name} (${room.hotel.stars} ⭐)<br>
                                 <strong>Cidade:</strong> ${room.hotel.city}
                             </p>
+                            <button class="btn btn-primary reservar-btn" data-room-id="${room.id}">Reservar</button>
                         </div>
                     </div>
                 `;
                 roomList.appendChild(roomCard);
             });
-        }
 
+            document.querySelectorAll('.reservar-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const roomId = this.dataset.roomId;
+                    const selectedRoom = rooms.find(room => room.id === parseInt(roomId));
+                    reservarQuarto(selectedRoom);
+                });
+            });
+        }
     }
+    // revisar os dados da reserva
+    function reservarQuarto(room) {
+        localStorage.setItem('selectedRoom', JSON.stringify(room));
+        const checkIn = document.getElementById('checkin').value;
+        const checkOut = document.getElementById('checkout').value;
+        localStorage.setItem('checkIn', checkIn);
+        localStorage.setItem('checkOut', checkOut);
+        window.location.href = "http://localhost:8080/prebooking";
+    }
+    document.querySelectorAll('.reservar-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const roomId = button.dataset.roomId;
+            const selectedRoom = rooms.find(room => room.id === parseInt(roomId));
+            reservarQuarto(selectedRoom);
+        });
+    });
     

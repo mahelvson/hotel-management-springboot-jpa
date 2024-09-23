@@ -47,11 +47,11 @@ public class Room implements Serializable{
 		
 	}
 	
-	public Room(Long id, Integer capacity, Integer singleBeds, Integer coupleBeds, Double diaryValue,
+	public Room(Long id, Integer singleBeds, Integer coupleBeds, Double diaryValue,
 			Hotel hotel, Integer roomNumber) {
 		
 		this.id = id;
-		this.capacity = capacity;
+		this.capacity = singleBeds * 1 + coupleBeds * 2;
 		this.singleBeds = singleBeds;
 		this.coupleBeds = coupleBeds;
 		this.diaryValue = diaryValue;

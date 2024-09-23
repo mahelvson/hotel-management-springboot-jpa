@@ -48,7 +48,7 @@ public class RoomService {
 				throw new RuntimeException("Room "+ roomNumber + " already exists");
 			}
 		}
-		Room room = new Room(null, capacity, singleBeds, coupleBeds, diaryValue, hotel, roomNumber);
+		Room room = new Room(null, singleBeds, coupleBeds, diaryValue, hotel, roomNumber);
 		return room;
 	}
 
