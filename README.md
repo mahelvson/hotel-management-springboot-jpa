@@ -2,7 +2,11 @@
 É um sistema simples para busca e reserva de quartos em hotéis, onde clientes, recepcionistas e administradores podem interagir, feito em Java com SpringBoot.
 
 - Basta clonar o repositório
-- Rodar mvn clean install
-- Use http://localhost:8080 para acessar a interface
+- Rodar comando mvn clean install dentro da pasta que contém o pom.xml
+- Acessar via terminal a pasta /target e executar o comando java -jar manager-0.0.1-SNAPSHOT.jar
+- Use http://localhost:8080 para acessar a interface abaixo
+
+<img src="screencap.pgn" alt="Screenshot">
+
 - Verifique /src/main/java/com/hotel/manager/config/TesteConfig.java para acessar dados de login de alguns tipos de usuário, ou crie um cliente usuário utilizando a navbar.
-- Usuário do tipo Gerente/Manager é possível apenas com usuário: thais@gmail.com e pass: 12345.
+- O único usuário de nível Manager/Gerente é o user: thais@gmail.com | pass: 12345.
