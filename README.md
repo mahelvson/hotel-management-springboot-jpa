@@ -6,7 +6,7 @@
 - Acessar via terminal a pasta /target e executar o comando java -jar manager-0.0.1-SNAPSHOT.jar
 - Use http://localhost:8080 para acessar a interface abaixo
 
-<img src="screencap.pgn" alt="Screenshot">
+<img src="screencap.png" alt="Screenshot">
 
 - Verifique /src/main/java/com/hotel/manager/config/TesteConfig.java para acessar dados de login de alguns tipos de usuário, ou crie um cliente usuário utilizando a navbar.
 - O único usuário de nível Manager/Gerente é o user: thais@gmail.com | pass: 12345.
