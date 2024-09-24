@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.manager.dto.ClientDTO;
 import com.hotel.manager.entities.Client;
 import com.hotel.manager.facade.ClientFacade;
 
@@ -43,10 +45,10 @@ public class ClientResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<Client> createClient(@RequestParam String name, @RequestParam String email,
-			@RequestParam String password) {
-		Client client = clientFacade.createClient(name, email, password);
-
+	//public ResponseEntity<Client> createClient(@RequestParam String name, @RequestParam String email,
+	//		@RequestParam String password) {
+	public ResponseEntity<Client> createClient(@RequestBody ClientDTO clientDTO) {
+		Client client = clientFacade.createClient(clientDTO.getName(), clientDTO.getEmail(), clientDTO.getPassword());
 		return ResponseEntity.ok(client);
 	}
 
@@ -62,4 +64,6 @@ public class ClientResource {
 		Client updatedClient = clientFacade.updateClient(name, email, password);
 		return ResponseEntity.ok(updatedClient);
 	}
+	
+	
 }

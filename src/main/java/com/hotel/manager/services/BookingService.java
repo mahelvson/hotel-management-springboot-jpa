@@ -39,6 +39,8 @@ public class BookingService {
 		Optional<Booking> obj = bookingRepository.findById(id);
 		return obj.orElseThrow(() -> new RuntimeException("Booking not found"));
 	}
+	
+	
 
 	public Booking save(Booking booking) {
 		return bookingRepository.save(booking);
@@ -96,5 +98,9 @@ public class BookingService {
 		Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
 		booking.setBookingStatus(BookingStatus.CONFIRMED);
 		return bookingRepository.save(booking);
+	}
+
+	public List<Booking> findBookingsByUserId(Long userId) {
+		return bookingRepository.findByClientId(userId);
 	}
 }

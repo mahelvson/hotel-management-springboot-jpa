@@ -71,4 +71,10 @@ public class BookingResource {
 	public ResponseEntity<String> handleRoomUnavailableException(RoomUnavailableException ex) {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
 	}
+	
+	@GetMapping("/user/{userId}")
+    public ResponseEntity<List<Booking>> getBookingsByUserId(@PathVariable Long userId) {
+        List<Booking> bookings = bookingFacade.findBookingsByUserId(userId);
+        return ResponseEntity.ok(bookings);
+    }
 }

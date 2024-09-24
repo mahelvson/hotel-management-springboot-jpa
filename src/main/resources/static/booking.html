@@ -71,13 +71,20 @@
     </div>
 
     <script>
-      // Recebe os dados do localStorage ou de outro meio de transmissão
+      document.addEventListener("DOMContentLoaded", function () {
+        const clientId = localStorage.getItem("clientId");
+        if (!clientId) {
+          alert("Usuário não autenticado. Por favor, faça login.");
+          window.location.href = "/"; // Redireciona para a página inicial ou de login
+          return;
+        }
+      });
+
       const roomData = JSON.parse(localStorage.getItem("selectedRoom"));
       const checkIn = localStorage.getItem("checkIn");
       const checkOut = localStorage.getItem("checkOut");
 
       if (roomData) {
-        // Preenche os elementos HTML com os dados do quarto
         document.getElementById("hotelName").textContent = roomData.hotel.name;
         document.getElementById("cityName").textContent = roomData.hotel.city;
         document.getElementById("roomNumber").textContent = roomData.roomNumber;
@@ -100,7 +107,7 @@
           window.location.href = "/";
         } else {
           const diffTime = Math.abs(checkOutDate - checkInDate);
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Converte o tempo em dias
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
           const totalAmount = roomData.diaryValue * diffDays;
           document.getElementById("totalAmount").textContent =
@@ -108,74 +115,75 @@
         }
       } else {
         alert("Nenhum quarto selecionado.");
-        window.location.href = "/"; // Redireciona de volta à página principal se não houver dados
+        window.location.href = "/";
       }
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         const confirmButton = document.getElementById("confirmBtn");
 
         if (confirmButton) {
+          confirmButton.addEventListener("click", async () => {
+            try {
+              const selectedRoom = JSON.parse(
+                localStorage.getItem("selectedRoom")
+              );
+              const checkIn = localStorage.getItem("checkIn");
+              const checkOut = localStorage.getItem("checkOut");
+              const guestsNumber = localStorage.getItem("guestsNumber");
 
-            confirmButton.addEventListener("click", async () => {
-                try {
-                  const selectedRoom = JSON.parse(
-                    localStorage.getItem("selectedRoom")
-                  );
-                  const checkIn = localStorage.getItem("checkIn");
-                  const checkOut = localStorage.getItem("checkOut");
-                  const guestsNumber = localStorage.getItem("guestsNumber");
-      
-                  if (!selectedRoom || !checkIn || !checkOut) {
-                    alert("Erro ao recuperar os dados da reserva.");
-                    return;
-                  }
-      
-                  //const clientId = localStorage.getItem("clientId"); // Por exemplo, capturado após login
-                  //if (!clientId) {
-                  //  alert("Usuário não autenticado. Por favor, faça login.");
-                  //  return;
-                  //}
-      
-                  // Cria o objeto para ser enviado ao backend
-                  const bookingData = {
-                    clientId: 1,
-                    roomId: selectedRoom.id,
-                    checkIn: checkIn,
-                    checkOut: checkOut,
-                    total: calculateTotal(checkIn, checkOut, selectedRoom.diaryValue),
-                    guestsNumber: Number(guestsNumber), // Função para calcular o total
-                  };
-      
-                  // Faz a requisição POST para criar a reserva
-                  const response = await fetch("http://localhost:8080/bookings", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(bookingData),
-                  });
-      
-                  if (response.ok) {
-                    alert("Reserva confirmada com sucesso!");
-                    window.location.href = "/"; // Redireciona para a página inicial ou outra de sua escolha
-                  } else {
-                    const errorResponse = await response.json();
-                    console.error("Erro ao confirmar reserva:", errorResponse);
-                    alert("Não foi possível confirmar a reserva. Tente novamente.");
-                  }
-                } catch (error) {
-                  console.error("Erro ao processar a reserva:", error);
-                  alert("Ocorreu um erro ao confirmar a reserva.");
-                }
-            });
+              if (!selectedRoom || !checkIn || !checkOut) {
+                alert("Erro ao recuperar os dados da reserva.");
+                return;
+              }
+
+              const clientId = localStorage.getItem("clientId");
+              if (!clientId) {
+                alert("Usuário não autenticado. Por favor, faça login.");
+                return;
+              }
+
+              // Cria o objeto para ser enviado ao backend
+              const bookingData = {
+                clientId: clientId,
+                roomId: selectedRoom.id,
+                checkIn: checkIn,
+                checkOut: checkOut,
+                total: calculateTotal(
+                  checkIn,
+                  checkOut,
+                  selectedRoom.diaryValue
+                ),
+                guestsNumber: Number(guestsNumber),
+              };
+
+              const response = await fetch("http://localhost:8080/bookings", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bookingData),
+              });
+
+              if (response.ok) {
+                alert("Reserva confirmada com sucesso!");
+                window.location.href = "/";
+              } else {
+                const errorResponse = await response.json();
+                console.error("Erro ao confirmar reserva:", errorResponse);
+                alert("Não foi possível confirmar a reserva. Tente novamente.");
+              }
+            } catch (error) {
+              console.error("Erro ao processar a reserva:", error);
+              alert("Ocorreu um erro ao confirmar a reserva.");
+            }
+          });
         }
-      })
+      });
       document
         .getElementById("cancelBtn")
         .addEventListener("click", function () {
-          window.location.href = "/"; // Redireciona de volta à página principal ao cancelar
+          window.location.href = "/";
         });
 
-      // Função para calcular o total da reserva
       function calculateTotal(checkIn, checkOut, diaryValue) {
         const dateIn = new Date(checkIn);
         const dateOut = new Date(checkOut);

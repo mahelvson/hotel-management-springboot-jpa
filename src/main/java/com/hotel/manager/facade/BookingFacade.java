@@ -42,6 +42,8 @@ public class BookingFacade {
 		bookingService.deleteById(id);
 	}
 	
-	
+	public List<Booking> findBookingsByUserId(Long userId) {
+		return bookingService.findBookingsByUserId(userId);
+	}
 
 }

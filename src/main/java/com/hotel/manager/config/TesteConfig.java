@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.hotel.manager.entities.Client;
 import com.hotel.manager.entities.Hotel;
@@ -40,9 +42,12 @@ public class TesteConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPassword = encoder.encode("12345");
 
-		Client cli1 = new Client(null, "Pedro", "pedro@gmail.com", "12345", UserType.CLIENT);
-		Client cli2 = new Client(null, "Joao", "joao@gmail.com", "12345", UserType.CLIENT);
+		Client cli1 = new Client(null, "Pedro", "pedro@gmail.com", encodedPassword, UserType.CLIENT);
+		Client cli2 = new Client(null, "Joao", "joao@gmail.com", encodedPassword, UserType.CLIENT);
 		
 		clientRepository.saveAll(Arrays.asList(cli1, cli2));
 
@@ -59,11 +64,11 @@ public class TesteConfig implements CommandLineRunner {
 
 		roomRepository.saveAll(Arrays.asList(room1, room2, room3, room4));
 
-		Manager man1 = new Manager(null, "Thais", "thais@gmail.com", "12345", UserType.MANAGER);
+		Manager man1 = new Manager(null, "Thais", "thais@gmail.com", encodedPassword, UserType.MANAGER);
 		managerRepository.saveAll(Arrays.asList(man1));
 
-		Receptionist rec1 = new Receptionist(null, "Jose", "jose@gmail.com", "12345", UserType.RECEPTIONIST);
-		Receptionist rec2 = new Receptionist(null, "Arthur", "arthur@gmail.com", "12345", UserType.RECEPTIONIST);
+		Receptionist rec1 = new Receptionist(null, "Jose", "jose@gmail.com", encodedPassword, UserType.RECEPTIONIST);
+		Receptionist rec2 = new Receptionist(null, "Arthur", "arthur@gmail.com", encodedPassword, UserType.RECEPTIONIST);
 		receptionistRepository.saveAll(Arrays.asList(rec1, rec2));
 		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2024, 8, 10), LocalDate.of(2024, 9, 15),
 				1500.00, 4);

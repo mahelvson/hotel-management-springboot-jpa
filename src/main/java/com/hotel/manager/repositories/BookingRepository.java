@@ -15,6 +15,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	        + "(b.dateCheckIn <= :checkOut AND b.dateCheckOut >= :checkIn)")
 	List<Booking> findConflictingBookings(@Param("roomId") Long roomId, @Param("checkIn") LocalDate checkIn,
 	        @Param("checkOut") LocalDate checkOut);
+	
+	List<Booking> findByClientId(Long clientId);
 
 
 }

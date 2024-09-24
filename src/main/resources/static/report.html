@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Relatório de Reservas - Recepcionista</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .main-content {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        .highlight {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div id="userDetails" class="ms-auto text-white">
+                <span id="username" class="me-3"></span>
+                <button id="logoutButton" class="btn btn-outline-light btn-sm">Sair</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h2 class="text-center">Relatório de Reservas</h2>
+
+        <!-- Formulário para buscar relatório -->
+        <div class="mb-3">
+            <label for="bookingId" class="form-label">ID da Reserva</label>
+            <input type="number" id="bookingId" class="form-control" placeholder="Digite o ID da reserva" required>
+            <button id="fetchReportBtn" class="btn btn-primary mt-2">Obter Relatório</button>
+        </div>
+
+        <!-- Relatório de Reservas -->
+        <div id="reportContainer" class="highlight d-none">
+            <h4>Detalhes da Reserva</h4>
+            <p><strong>ID da Reserva:</strong> <span id="reportId"></span></p>
+            <p><strong>Nome do Cliente:</strong> <span id="clientName"></span></p>
+            <p><strong>Email do Cliente:</strong> <span id="clientEmail"></span></p>
+            <p><strong>Data de Check-In:</strong> <span id="checkInDate"></span></p>
+            <p><strong>Data de Check-Out:</strong> <span id="checkOutDate"></span></p>
+            <p><strong>Total da Reserva:</strong> R$<span id="totalAmount"></span></p>
+            <p><strong>Número do Quarto:</strong> <span id="roomNumber"></span></p>
+            <p><strong>Status do Pagamento:</strong> <span id="paymentStatus"></span></p>
+            <p><strong>Método de Pagamento:</strong> <span id="paymentMethod"></span></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fetchReportBtn = document.getElementById('fetchReportBtn');
+
+            fetchReportBtn.addEventListener('click', async () => {
+                const bookingId = document.getElementById('bookingId').value;
+                if (!bookingId) {
+                    alert('Por favor, insira um ID de reserva válido.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/reports/booking/${bookingId}`);
+                    if (response.ok) {
+                        const report = await response.json();
+                        displayReport(report);
+                    } else {
+                        alert('Erro ao obter o relatório. Verifique o ID da reserva.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao buscar o relatório:', error);
+                    alert('Ocorreu um erro ao buscar o relatório. Tente novamente.');
+                }
+            });
+
+            function displayReport(report) {
+                document.getElementById('reportId').textContent = report.id;
+                document.getElementById('clientName').textContent = report.clientName;
+                document.getElementById('clientEmail').textContent = report.clientEmail;
+                document.getElementById('checkInDate').textContent = report.dateCheckIn;
+                document.getElementById('checkOutDate').textContent = report.dateCheckOut;
+                document.getElementById('totalAmount').textContent = report.totalAmount.toFixed(2);
+                document.getElementById('roomNumber').textContent = report.roomNumber;
+                document.getElementById('paymentStatus').textContent = report.paymentStatus;
+                document.getElementById('paymentMethod').textContent = report.paymentMethod;
+
+                document.getElementById('reportContainer').classList.remove('d-none');
+            }
+
+            // Adicionando o nome do usuário logado
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('username').innerHTML = `
+                    Bem-vindo, ${user.name} | 
+                    <a href="/client_bookings" style="text-decoration: none; color: inherit;">
+                      <b>Acesse sua conta</b>
+                    </a>`;
+            } else {
+                fetchCurrentUser();
+            }
+
+            // Função para logout
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                localStorage.removeItem('user');
+                window.location.href = '/logout';
+            });
+        });
+
+        async function fetchCurrentUser() {
+            try {
+                const response = await fetch("http://localhost:8080/auth/currentUser");
+                if (response.ok) {
+                    const userData = await response.json();
+                    localStorage.setItem("user", JSON.stringify(userData));
+                    localStorage.setItem("clientId", userData.id);
+                    localStorage.setItem("isLoggedIn", true);
+                    displayUserInfo(userData);
+                } else {
+                    console.log("Não foi possível obter os dados do usuário.");
+                    localStorage.removeItem("isLoggedIn");
+                }
+            } catch (error) {
+                console.error("Erro ao obter dados do usuário:", error);
+                localStorage.removeItem("isLoggedIn");
+            }
+        }
+
+        function displayUserInfo(user) {
+            const userDetails = document.getElementById("userDetails");
+            userDetails.innerHTML = `
+                <span>
+                    Bem-vindo, ${user.name} | 
+                    <a href="/client_bookings" style="text-decoration: none; color: inherit;">
+                        <b>Acesse sua conta</b>
+                    </a>
+                </span>
+                <button id="logoutButton" class="btn btn-light ms-2">Sair</button>
+            `;
+
+            document.getElementById("logoutButton").addEventListener("click", () => {
+                localStorage.removeItem("user");
+                window.location.href = "/logout";
+            });
+        }
+
+        // Função para logout
+        document.getElementById("logoutButton").addEventListener("click", async () => {
+            try {
+                const response = await fetch("/logout", {
+                    method: "POST",
+                    credentials: "include",
+                });
+
+                if (response.ok) {
+                    localStorage.removeItem("user");
+                    window.location.href = "/";
+                } else {
+                    console.error("Erro ao tentar sair:", response.status);
+                    alert("Erro ao tentar sair.");
+                }
+            } catch (error) {
+                console.error("Erro ao tentar logout:", error);
+            }
+        });
+    </script>
+
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+rel="stylesheet"
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+crossorigin="anonymous"
+/>
+</body>
+</html>

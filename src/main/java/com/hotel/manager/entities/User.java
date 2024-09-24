@@ -100,4 +100,8 @@ public abstract class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && userType == other.userType;
 	}
+
+	public boolean isEnabled() {
+		return true;
+	}
 }
