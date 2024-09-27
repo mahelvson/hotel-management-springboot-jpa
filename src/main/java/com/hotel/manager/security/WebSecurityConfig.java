@@ -20,46 +20,58 @@ import jakarta.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//		http.csrf(csrf -> csrf.disable())
+//				.authorizeHttpRequests(
+//						authorize -> authorize
+//								.requestMatchers("/", "/index.html", "/registration_visitor.html", "/hotels/**",
+//										"/rooms/**", "/registration", "/css/**", "/js/**", "/logout", "/swagger-ui/**", "/v3/api-docs/**")
+//								.permitAll()
+//								.anyRequest()
+//								.authenticated())
+//				.formLogin(login -> login.loginProcessingUrl("/perform_login")
+//						.successHandler((request, response, authentication) -> {
+//							CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//							UserType userType = customUserDetails.getUserType();
+//
+//							switch (userType) {
+//							case RECEPTIONIST:
+//								response.sendRedirect("/report.html");
+//								break;
+//							case MANAGER:
+//								response.sendRedirect("/manager.html");
+//								break;
+//							case CLIENT:
+//								response.sendRedirect("/index.html");
+//								break;
+//							default:
+//								response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+//										"Tipo de usuário inválido.");
+//							}
+//						}).permitAll())
+//				.logout(logout -> logout
+//						.logoutUrl("/logout")
+//						.logoutSuccessUrl("/")
+//						.invalidateHttpSession(true)
+//						.clearAuthentication(true)
+//						.deleteCookies("JSESSIONID")
+//						.permitAll())
+//				.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
+//
+//		return http.build();
+//	}
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(
-						authorize -> authorize
-								.requestMatchers("/", "/index.html", "/registration_visitor.html", "/hotels/**",
-										"/rooms/**", "/registration", "/css/**", "/js/**", "/logout", "/swagger-ui/**", "/v3/api-docs/**")
-								.permitAll()
-								.anyRequest()
-								.authenticated())
-				.formLogin(login -> login.loginProcessingUrl("/perform_login")
-						.successHandler((request, response, authentication) -> {
-							CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-							UserType userType = customUserDetails.getUserType();
+	    http.csrf(csrf -> csrf.disable())
+	        .authorizeHttpRequests(authorize -> authorize
+	            .anyRequest()
+	            .permitAll()) // Permite acesso a todas as rotas sem autenticação
+	        .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+	        .formLogin(login -> login.disable()) // Desabilita a tela de login
+	        .logout(logout -> logout.disable()); // Desabilita o logout
 
-							switch (userType) {
-							case RECEPTIONIST:
-								response.sendRedirect("/report.html");
-								break;
-							case MANAGER:
-								response.sendRedirect("/manager.html");
-								break;
-							case CLIENT:
-								response.sendRedirect("/index.html");
-								break;
-							default:
-								response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-										"Tipo de usuário inválido.");
-							}
-						}).permitAll())
-				.logout(logout -> logout
-						.logoutUrl("/logout")
-						.logoutSuccessUrl("/")
-						.invalidateHttpSession(true)
-						.clearAuthentication(true)
-						.deleteCookies("JSESSIONID")
-						.permitAll())
-				.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
-
-		return http.build();
+	    return http.build();
 	}
 
 	@Bean

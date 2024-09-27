@@ -109,7 +109,7 @@ public class ClientResource {
 			}
 	)
 	@Tag(name="Client")
-	@DeleteMapping(value = "/delete/{email}")
+	@DeleteMapping(value = "/deleteByEmail")
 	public ResponseEntity<Void> deleteClientByEmail(@RequestParam String email) {
 		clientFacade.deleteClient(email);
 		return ResponseEntity.noContent().build();

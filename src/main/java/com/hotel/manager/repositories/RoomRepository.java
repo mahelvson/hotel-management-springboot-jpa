@@ -18,6 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 		                                                        @Param("checkOut") LocalDate checkOut, 
 		                                                        @Param("guestsNumber") Integer guestsNumber);
 
-
+		void deleteById(Long id);
 
 }

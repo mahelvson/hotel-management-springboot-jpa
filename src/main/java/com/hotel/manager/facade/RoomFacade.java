@@ -26,12 +26,12 @@ public class RoomFacade {
 		return room;
 	}
 	
-	public Room createRoom(String hotelName, Integer capacity, Integer singleBeds, Integer coupleBeds, Double diaryValue, Integer roomNumber) {
-		Room room = roomService.createRoom(hotelName, capacity, singleBeds, coupleBeds, diaryValue, roomNumber);
+	public Room createRoom(String hotelName, Integer singleBeds, Integer coupleBeds, Double diaryValue, Integer roomNumber) {
+		Room room = roomService.createRoom(hotelName, singleBeds, coupleBeds, diaryValue, roomNumber);
 		return room;
 	}
-	public void deleteRoom(Long roomId) {
-		roomService.deleteById(roomId);
+	public void deleteRoom(Long id) {
+		roomService.deleteById(id);
 	}
 	
 	public List<Room> findAvailableRooms(Long hotelId, LocalDate checkIn, LocalDate checkOut, Integer guestsNumber) {

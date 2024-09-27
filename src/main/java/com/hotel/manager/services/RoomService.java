@@ -36,10 +36,12 @@ public class RoomService {
 	}
 
 	public void deleteById(Long id) {
-		roomRepository.deleteById(id);
+		Room room = roomRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Room " + id + " not found!"));
+		roomRepository.deleteById(room.getId());
 	}
 
-	public Room createRoom(String hotelName, Integer capacity, Integer singleBeds, Integer coupleBeds, Double diaryValue, Integer roomNumber) {
+	public Room createRoom(String hotelName, Integer singleBeds, Integer coupleBeds, Double diaryValue, Integer roomNumber) {
 		Hotel hotel = hotelRepository.findByHotelName(hotelName)
 				.orElseThrow(() -> new RuntimeException("Hotel " + hotelName + " not found"));
 		List<Room> rooms = hotel.getRooms();

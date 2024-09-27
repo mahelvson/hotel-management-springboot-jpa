@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,8 +40,8 @@ public class Room implements Serializable{
 	@JoinColumn(name="hotel_id")
 	private Hotel hotel;
 	
-	@OneToMany(mappedBy="room")
 	@JsonIgnore
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Booking> bookings = new ArrayList<>();
 	
 	public Room() {

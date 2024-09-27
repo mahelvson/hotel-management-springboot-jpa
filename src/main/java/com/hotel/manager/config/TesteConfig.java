@@ -51,8 +51,8 @@ public class TesteConfig implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1, cli2));
 
-		Hotel hotel1 = new Hotel(null, "Salinas", "Maragogi", 5);
-		Hotel hotel2 = new Hotel(null, "Salinas", "Maceió", 5);
+		Hotel hotel1 = new Hotel(null, "Salinas Maragogi", "Maragogi", 5);
+		Hotel hotel2 = new Hotel(null, "Salinas Maceió", "Maceió", 5);
 
 		hotelRepository.save(hotel1);
 		hotelRepository.save(hotel2);
@@ -70,7 +70,11 @@ public class TesteConfig implements CommandLineRunner {
 		Receptionist rec1 = new Receptionist(null, "Jose", "jose@gmail.com", encodedPassword, UserType.RECEPTIONIST);
 		Receptionist rec2 = new Receptionist(null, "Arthur", "arthur@gmail.com", encodedPassword, UserType.RECEPTIONIST);
 		receptionistRepository.saveAll(Arrays.asList(rec1, rec2));
-		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2024, 8, 10), LocalDate.of(2024, 9, 15),
-				1500.00, 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15), 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2023, 7, 10), LocalDate.of(2023, 7, 15), 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2022, 6, 10), LocalDate.of(2022, 6, 15), 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2021, 5, 10), LocalDate.of(2021, 5, 15), 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2020, 4, 10), LocalDate.of(2020, 4, 15), 4);
+		bookingService.createBooking(cli1.getId(), room1.getId(), LocalDate.of(2019, 3, 10), LocalDate.of(2019, 3, 15), 4);
 	}
 }

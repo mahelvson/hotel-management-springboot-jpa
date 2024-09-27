@@ -49,7 +49,7 @@ public class RoomResource {
 		return ResponseEntity.ok().body(room);
 	}
 	
-	@GetMapping(value = "/id/{id}")
+	@GetMapping(value = "/id/{roomId}")
 	@Tag(name="Room")
 	@Operation(
 			summary = "Search a room by ID",
@@ -77,8 +77,9 @@ public class RoomResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Room> createRoom(@RequestParam Integer capacity, @RequestParam Integer singleBeds, @RequestParam Integer coupleBeds, @RequestParam Double diaryValue, @RequestParam String hotelName, @RequestParam Integer roomNumber) {
-		Room room = roomFacade.createRoom(hotelName, capacity, singleBeds, coupleBeds, diaryValue, roomNumber);
+	public ResponseEntity<Room> createRoom(@RequestParam String hotelName, @RequestParam Integer singleBeds, @RequestParam Integer coupleBeds, @RequestParam Double diaryValue,  @RequestParam Integer roomNumber) {
+		
+		Room room = roomFacade.createRoom(hotelName, singleBeds, coupleBeds, diaryValue, roomNumber);
 		roomRepository.save(room);
 		return ResponseEntity.ok(room);
 	}
@@ -94,8 +95,8 @@ public class RoomResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Void> deleteById(@RequestParam Long roomId) {
-		roomFacade.deleteRoom(roomId);
+	public ResponseEntity<Void> deleteById(@RequestParam Long id) {
+		roomFacade.deleteRoom(id);
 		return ResponseEntity.noContent().build();
 	}
 	

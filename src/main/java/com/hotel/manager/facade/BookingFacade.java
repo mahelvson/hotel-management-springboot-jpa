@@ -26,8 +26,8 @@ public class BookingFacade {
 		Booking booking = bookingService.findById(id);
 		return booking;
 	}
-	public Booking createBooking(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Double total, Integer guestsNumber) {
-		Booking booking = bookingService.createBooking(clientId, roomId, checkIn, checkOut, total, guestsNumber);
+	public Booking createBooking(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Integer guestsNumber) {
+		Booking booking = bookingService.createBooking(clientId, roomId, checkIn, checkOut, guestsNumber);
 		return booking;
 	}
 	public Booking updateBooking(Long bookingId, Long roomId, LocalDate checkIn, LocalDate checkOut) {

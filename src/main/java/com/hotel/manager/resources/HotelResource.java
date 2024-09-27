@@ -107,7 +107,7 @@ public class HotelResource {
 		Hotel hotel = hotelFacade.createHotel(hotelName, city, stars);
 		return ResponseEntity.ok(hotel);
 	}
-	@PatchMapping(value="/update/{name}")
+	@PatchMapping(value="/update")
 	@Tag(name="Hotel")
 	@Operation(
 			summary = "Update a hotel registration",
@@ -124,7 +124,7 @@ public class HotelResource {
 		
 		return ResponseEntity.ok(updatedHotel);
 	}
-	@DeleteMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/delete")
 	@Tag(name="Hotel")
 	@Operation(
 			summary = "Remove a single hotel by its ID",

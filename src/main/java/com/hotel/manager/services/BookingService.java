@@ -55,7 +55,7 @@ public class BookingService {
 	}
 	
 	@Transactional
-	public Booking createBooking(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Double total, Integer guestsNumber) {
+	public Booking createBooking(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Integer guestsNumber) {
 		Client client = clientRepository.findById(clientId).orElseThrow(() -> new RuntimeException("Client not found"));
 		Room room = roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
 		List<Booking> conflictingBookings = bookingRepository.findConflictingBookings(roomId, checkIn, checkOut);

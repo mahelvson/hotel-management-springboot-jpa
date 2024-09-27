@@ -80,11 +80,11 @@ public class BookingResource {
 			}
 	)
 	public ResponseEntity<Booking> createBooking(@RequestBody BookingDTO bookingData) {
-		Booking booking = bookingFacade.createBooking(bookingData.getClientId(), bookingData.getRoomId(), bookingData.getCheckIn(), bookingData.getCheckOut(), bookingData.getTotal(), bookingData.getGuestsNumber());
+		Booking booking = bookingFacade.createBooking(bookingData.getClientId(), bookingData.getRoomId(), bookingData.getCheckIn(), bookingData.getCheckOut(), bookingData.getGuestsNumber());
 		return ResponseEntity.ok(booking);
 	}
 	
-	@PatchMapping
+	@PatchMapping(value = "/update")
 	@Tag(name="Booking")
 	@Operation(
 			summary = "Update a booking",
@@ -102,7 +102,7 @@ public class BookingResource {
 		return ResponseEntity.ok(updatedBooking);
 	}
 	
-	@DeleteMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/delete")
 	@Tag(name="Booking")
 	@Operation(
 			summary = "Remove a single booking by its ID",
@@ -118,21 +118,21 @@ public class BookingResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping(value = "/{id}/confirm")
-	@Tag(name="Booking")
-	@Operation(
-			summary = "Confirm a booking.",
-			description = "Update the booking to a `status: confirmed` in the database",
-			tags = {"booking, crud"},
-			responses = {
-					@ApiResponse(responseCode = "200", description = "Booking confirmed"),
-					@ApiResponse(responseCode = "500", description = "Internal error"),
-			}
-	)
-	public ResponseEntity<Booking> confirmBooking(@RequestParam Long bookingId) {
-		Booking confirmedBooking = bookingFacade.confirmBooking(bookingId);
-		return ResponseEntity.ok(confirmedBooking);
-	}
+//	@PostMapping(value = "/{id}/confirm")
+//	@Tag(name="Booking")
+//	@Operation(
+//			summary = "Confirm a booking.",
+//			description = "Update the booking to a `status: confirmed` in the database",
+//			tags = {"booking, crud"},
+//			responses = {
+//					@ApiResponse(responseCode = "200", description = "Booking confirmed"),
+//					@ApiResponse(responseCode = "500", description = "Internal error"),
+//			}
+//	)
+//	public ResponseEntity<Booking> confirmBooking(@RequestParam Long bookingId) {
+//		Booking confirmedBooking = bookingFacade.confirmBooking(bookingId);
+//		return ResponseEntity.ok(confirmedBooking);
+//	}
 	
 	@ExceptionHandler(RoomUnavailableException.class)
 	public ResponseEntity<String> handleRoomUnavailableException(RoomUnavailableException ex) {

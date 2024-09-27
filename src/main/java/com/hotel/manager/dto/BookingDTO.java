@@ -8,18 +8,16 @@ public class BookingDTO {
     private Long roomId;
     private LocalDate checkIn;
     private LocalDate checkOut;
-    private Double total;
     private Integer guestsNumber;
 
     public BookingDTO() {
     }
 
-    public BookingDTO(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Double total, Integer guestsNumber) {
+    public BookingDTO(Long clientId, Long roomId, LocalDate checkIn, LocalDate checkOut, Integer guestsNumber) {
         this.clientId = clientId;
         this.roomId = roomId;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.total = total;
         this.guestsNumber = guestsNumber;
     }
 
@@ -53,14 +51,6 @@ public class BookingDTO {
 
     public void setCheckOut(LocalDate checkOut) {
         this.checkOut = checkOut;
-    }
-
-    public Double getTotal() {
-        return total;
-    }
-
-    public void setTotal(Double total) {
-        this.total = total;
     }
 
     public Integer getGuestsNumber() {

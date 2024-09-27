@@ -8,5 +8,6 @@ import com.hotel.manager.entities.Receptionist;
 
 public interface ReceptionistRepository extends JpaRepository<Receptionist, Long>{
 	Optional<Receptionist> findByEmail(String email);
+	Optional<Receptionist> findById(Long id);
 	Optional<Receptionist> deleteByEmail(String email);
 }
