@@ -9,4 +9,5 @@
 <img src="screencap.png" alt="Screenshot">
 
 - Verifique /src/main/java/com/hotel/manager/config/TesteConfig.java para acessar dados de login de alguns tipos de usuário, ou crie um cliente usuário utilizando a navbar.
-- O único usuário de nível Manager/Gerente é o user: thais@gmail.com | pass: 12345.
+- O único usuário de nível Manager/Gerente é o user: thais@gmail.com | pass: 12345
+- Use http://localhost:8080/swagger-ui/index.html para acessar o swagger da API
