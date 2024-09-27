@@ -26,7 +26,7 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests(
 						authorize -> authorize
 								.requestMatchers("/", "/index.html", "/registration_visitor.html", "/hotels/**",
-										"/rooms/**", "/registration", "/css/**", "/js/**", "/logout")
+										"/rooms/**", "/registration", "/css/**", "/js/**", "/logout", "/swagger-ui/**", "/v3/api-docs/**")
 								.permitAll()
 								.anyRequest()
 								.authenticated())

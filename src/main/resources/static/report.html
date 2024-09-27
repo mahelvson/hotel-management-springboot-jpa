@@ -227,7 +227,7 @@
                 if (!confirm("Deseja realmente remover este quarto?")) return;
 
                 try {
-                    const response = await fetch(`/rooms/deteByNameNumber?roomId=${roomId}`, {
+                    const response = await fetch(`/rooms/deleteById?roomId=${roomId}`, {
                         method: "DELETE"
                     });
 
