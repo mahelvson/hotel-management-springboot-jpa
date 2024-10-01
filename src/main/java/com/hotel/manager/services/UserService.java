@@ -1,7 +1,6 @@
 package com.hotel.manager.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,24 +19,17 @@ public class UserService implements UserServiceInterface {
 	
 	@Override
 	public User findByEmail(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
-		return user.orElseThrow(() -> new RuntimeException("User not found"));
+		return userRepository.findByEmail(email);
 	}
 	
 	@Override
 	public User findById(Long userId) {
-		Optional<User> user = userRepository.findById(userId);
-		return user.orElseThrow(() -> new RuntimeException("User not found"));
+		return userRepository.findUserById(userId);
 	}
 	
 	@Override
 	public void deleteUser(Long userId) {
-		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		if (user != null) {
-			userRepository.deleteById(userId);
-		} else {
-			throw new RuntimeException("User not found");
-		}
+		userRepository.deleteById(userId);
 	}
 
 	@Override

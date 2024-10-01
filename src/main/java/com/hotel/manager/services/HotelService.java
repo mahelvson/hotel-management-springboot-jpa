@@ -1,7 +1,6 @@
 package com.hotel.manager.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +19,7 @@ public class HotelService implements HotelServiceInterface {
 	}
 	@Override
 	public Hotel findById(Long id) {
-		Optional<Hotel> obj = hotelRepository.findById(id);
-		return obj.orElseThrow(() -> new RuntimeException("Hotel not found"));
+		return hotelRepository.findHotelById(id);
 	}
 	@Override
 	public void deleteHotel(Long id) {
@@ -32,8 +30,7 @@ public class HotelService implements HotelServiceInterface {
 	}
 	@Override
 	public Hotel findHotelByCity(String city) {
-		Optional<Hotel> hotel = hotelRepository.findByCity(city);
-		return hotel.orElseThrow(() -> new RuntimeException("Hotel not found"));
+		return hotelRepository.findByCity(city);
 	}
 	@Override
 	public Hotel updateHotel(Hotel hotel) {

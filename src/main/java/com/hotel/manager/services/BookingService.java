@@ -2,7 +2,6 @@ package com.hotel.manager.services;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +37,8 @@ public class BookingService implements BookingServiceInterface {
 	}
 
 	@Override
-	public Optional<Booking> findBookingById(Long bookingId) {
-		return bookingRepository.findById(bookingId);
+	public Booking findBookingById(Long bookingId) {
+		return bookingRepository.findBookingById(bookingId);
 	}
 
 	@Override
@@ -56,4 +55,8 @@ public class BookingService implements BookingServiceInterface {
 	public void ConfirmPayment(Booking booking) {
 		bookingRepository.save(booking);
 	}
+	
+	public void setBookingRepository(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
 }

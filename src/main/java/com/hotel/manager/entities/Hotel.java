@@ -1,6 +1,7 @@
 package com.hotel.manager.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class Hotel implements Serializable{
 	
 	@OneToMany(mappedBy="hotel", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private List<Room> rooms;
+	private List<Room> rooms = new ArrayList<>();
 	
 	public Hotel() {
 		
