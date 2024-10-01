@@ -1,12 +1,10 @@
  package com.hotel.manager.resources;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +19,7 @@ import com.hotel.manager.dto.BookingDTO;
 import com.hotel.manager.entities.Booking;
 import com.hotel.manager.exceptions.RoomUnavailableException;
 import com.hotel.manager.facade.BookingFacade;
+import com.hotel.manager.facade.UserFacade;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +29,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping(value = "/bookings")
 public class BookingResource {
 	
-	@Autowired BookingFacade bookingFacade;
+	@Autowired 
+	BookingFacade bookingFacade;
+	@Autowired 
+	UserFacade userFacade;
 
 	@GetMapping
 	@Tag(name="Booking")
@@ -45,7 +47,7 @@ public class BookingResource {
 			}
 	)
 	public ResponseEntity<List<Booking>> findAll() {
-		List<Booking> booking = bookingFacade.getAllBooking();
+		List<Booking> booking = bookingFacade.findAllBookings();
 		return ResponseEntity.ok().body(booking);
 	}
 
@@ -62,13 +64,11 @@ public class BookingResource {
 			}
 	)
 	public ResponseEntity<Booking> findById(@PathVariable Long id) {
-		Booking booking = bookingFacade.getById(id);
+		Booking booking = bookingFacade.findBookingById(id);
 		return ResponseEntity.ok().body(booking);
 	}
 
-	@PostMapping
-	//public ResponseEntity<Booking> createBooking(@RequestParam Long clientId, @RequestParam Long roomId,
-	//		@RequestParam LocalDate checkIn, @RequestParam LocalDate checkOut, @RequestParam Double total, @RequestParam Integer guestsNumber) {
+	@PostMapping(value="/createForSelf")
 	@Tag(name="Booking")
 	@Operation(
 			summary = "Register a new booking",
@@ -79,12 +79,12 @@ public class BookingResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Booking> createBooking(@RequestBody BookingDTO bookingData) {
-		Booking booking = bookingFacade.createBooking(bookingData.getClientId(), bookingData.getRoomId(), bookingData.getCheckIn(), bookingData.getCheckOut(), bookingData.getGuestsNumber());
-		return ResponseEntity.ok(booking);
-	}
+	public ResponseEntity<Booking> createBookingForSelf(@RequestBody BookingDTO bookingData) {
+		Booking booking = bookingFacade.createBookingForSelf(bookingData);
+        return ResponseEntity.ok(booking);
+    }
 	
-	@PatchMapping(value = "/update")
+	@PatchMapping(value = "/updateForSelf")
 	@Tag(name="Booking")
 	@Operation(
 			summary = "Update a booking",
@@ -96,43 +96,43 @@ public class BookingResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Booking> updateBooking(@RequestParam Long bookingId, @RequestParam Long roomId,
-			@RequestParam LocalDate checkIn, @RequestParam LocalDate checkOut) {
-		Booking updatedBooking = bookingFacade.updateBooking(bookingId, roomId, checkIn, checkOut);
+	
+	public ResponseEntity<Booking> updateBookingForSelf(@RequestParam Long bookingId, @RequestBody BookingDTO newBookingData) {
+		Booking updatedBooking = bookingFacade.updateBookingForSelf(bookingId, newBookingData);
 		return ResponseEntity.ok(updatedBooking);
 	}
 	
-	@DeleteMapping(value = "/delete")
+	@PostMapping(value="/createForClient/{receptionistId}")
 	@Tag(name="Booking")
 	@Operation(
-			summary = "Remove a single booking by its ID",
-			description = "Delete a booking from database",
+			summary = "Register a new booking",
+			description = "Attempt to register a new booking",
 			tags = {"booking, crud"},
 			responses = {
-					@ApiResponse(responseCode = "200", description = "Booking removed"),
+					@ApiResponse(responseCode = "200", description = "Booking registered"),
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Void> deleteBooking(@RequestParam Long bookingId) {
-		bookingFacade.deleteBooking(bookingId);
-		return ResponseEntity.noContent().build();
-	}
+	public ResponseEntity<Booking> createBookingForClient(@PathVariable Long receptionistId, @RequestBody BookingDTO bookingData) {
+		Booking booking = bookingFacade.createBookingForClient(receptionistId, bookingData);
+        return ResponseEntity.ok(booking);
+    }
 	
-//	@PostMapping(value = "/{id}/confirm")
-//	@Tag(name="Booking")
-//	@Operation(
-//			summary = "Confirm a booking.",
-//			description = "Update the booking to a `status: confirmed` in the database",
-//			tags = {"booking, crud"},
-//			responses = {
-//					@ApiResponse(responseCode = "200", description = "Booking confirmed"),
-//					@ApiResponse(responseCode = "500", description = "Internal error"),
-//			}
-//	)
-//	public ResponseEntity<Booking> confirmBooking(@RequestParam Long bookingId) {
-//		Booking confirmedBooking = bookingFacade.confirmBooking(bookingId);
-//		return ResponseEntity.ok(confirmedBooking);
-//	}
+	@PostMapping(value = "/{id}/confirm")
+	@Tag(name="Booking")
+	@Operation(
+			summary = "Confirm a booking.",
+			description = "Update the booking to a `status: confirmed` in the database",
+			tags = {"booking, crud"},
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Booking confirmed"),
+					@ApiResponse(responseCode = "500", description = "Internal error"),
+			}
+	)
+	public ResponseEntity<Booking> confirmBooking(@RequestParam Long bookingId) {
+		Booking confirmedBooking = bookingFacade.confirmBooking(bookingId);
+		return ResponseEntity.ok(confirmedBooking);
+	}
 	
 	@ExceptionHandler(RoomUnavailableException.class)
 	public ResponseEntity<String> handleRoomUnavailableException(RoomUnavailableException ex) {
@@ -152,7 +152,7 @@ public class BookingResource {
 			}
 	)
     public ResponseEntity<List<Booking>> getBookingsByUserId(@PathVariable Long userId) {
-        List<Booking> bookings = bookingFacade.findBookingsByUserId(userId);
+        List<Booking> bookings = bookingFacade.findBookingsByClientId(userId);
         return ResponseEntity.ok(bookings);
     }
 }

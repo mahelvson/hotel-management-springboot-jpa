@@ -53,9 +53,8 @@ public class Booking implements Serializable{
 	
 	private Integer guestsNumber;
 	
-	public Booking(Long id, LocalDate dateCheckIn, LocalDate dateCheckOut, Client client, BookingStatus bookingStatus,
+	public Booking(Client client, LocalDate dateCheckIn, LocalDate dateCheckOut, BookingStatus bookingStatus,
 			Double total, Room room, Integer guestsNumber) {
-		this.id = id;
 		this.dateCheckIn = dateCheckIn;
 		this.dateCheckOut = dateCheckOut;
 		this.client = client;
@@ -94,7 +93,7 @@ public class Booking implements Serializable{
 	public void setDateCheckOut(LocalDate dateCheckOut) {
 		this.dateCheckOut = dateCheckOut;
 	}
-
+	
 	public Client getClient() {
 		return client;
 	}
@@ -132,8 +131,11 @@ public class Booking implements Serializable{
 	}
 
 	public void setPayment(Payment payment) {
-		this.payment = payment;
-	}
+        this.payment = payment;
+        if (payment != null) {
+            payment.setBooking(this);
+        }
+    }
 	
 	
 }

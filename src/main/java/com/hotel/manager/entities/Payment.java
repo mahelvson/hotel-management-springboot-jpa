@@ -3,6 +3,7 @@ package com.hotel.manager.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.manager.enums.PaymentMethod;
 import com.hotel.manager.enums.PaymentStatus;
 
@@ -31,6 +32,7 @@ public class Payment implements Serializable {
 	
 	@OneToOne
 	@JoinColumn(name="booking_id")
+	@JsonIgnore
 	private Booking booking;
 	
 	@Enumerated(EnumType.STRING)
@@ -39,8 +41,7 @@ public class Payment implements Serializable {
 	public Payment() {
 		
 	}
-	public Payment(Long id, Double value, PaymentMethod method, Booking booking, PaymentStatus paymentStatus) {
-		this.id = id;
+	public Payment(Double value, PaymentMethod method, Booking booking, PaymentStatus paymentStatus) {
 		this.paymentValue = value;
 		this.method = method;
 		this.paymentStatus = paymentStatus;
@@ -48,10 +49,6 @@ public class Payment implements Serializable {
 	
 	public Long getId() {
 		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public Double getValue() {

@@ -19,5 +19,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 		                                                        @Param("guestsNumber") Integer guestsNumber);
 
 		void deleteById(Long id);
+		Room findRoomById(Long id);
+		Room findRoomByHotelIdAndRoomNumber(Long hotelId, Integer roomNumber);
 
 }

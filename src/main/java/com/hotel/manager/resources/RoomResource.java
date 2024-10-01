@@ -8,15 +8,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.manager.dto.RoomDTO;
 import com.hotel.manager.entities.Room;
 import com.hotel.manager.facade.RoomFacade;
-import com.hotel.manager.repositories.RoomRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,9 +30,6 @@ public class RoomResource {
 	
 	@Autowired
 	private RoomFacade roomFacade;
-	
-	@Autowired
-	private RoomRepository roomRepository;
 	
 	@GetMapping
 	@Tag(name="Room")
@@ -45,7 +44,7 @@ public class RoomResource {
 			}
 	)
 	public ResponseEntity<List<Room>> findAll() {
-		List<Room> room = roomFacade.getAllRooms();
+		List<Room> room = roomFacade.findAllRooms();
 		return ResponseEntity.ok().body(room);
 	}
 	
@@ -62,7 +61,7 @@ public class RoomResource {
 			}
 	)
     public ResponseEntity<Room> findById(@PathVariable Long roomId) {
-		Room room = roomFacade.getRoomById(roomId);
+		Room room = roomFacade.findRoomById(roomId);
         return ResponseEntity.ok().body(room);
     }
 	
@@ -77,10 +76,9 @@ public class RoomResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Room> createRoom(@RequestParam String hotelName, @RequestParam Integer singleBeds, @RequestParam Integer coupleBeds, @RequestParam Double diaryValue,  @RequestParam Integer roomNumber) {
+	public ResponseEntity<Room> createRoom(@RequestBody RoomDTO roomData) {
 		
-		Room room = roomFacade.createRoom(hotelName, singleBeds, coupleBeds, diaryValue, roomNumber);
-		roomRepository.save(room);
+		Room room = roomFacade.createRoom(roomData);
 		return ResponseEntity.ok(room);
 	}
 	
@@ -95,8 +93,8 @@ public class RoomResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Void> deleteById(@RequestParam Long id) {
-		roomFacade.deleteRoom(id);
+	public ResponseEntity<Void> deleteById(@RequestParam Long roomId) {
+		roomFacade.deleteRoom(roomId);
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -120,4 +118,21 @@ public class RoomResource {
         List<Room> availableRooms = roomFacade.findAvailableRooms(hotelId, checkIn, checkOut, guestsNumber);
         return ResponseEntity.ok().body(availableRooms);
     }
+	
+	@PatchMapping(value="/update/{roomId}")
+	@Tag(name="Room")
+	@Operation(
+			summary = "Update a room registration",
+			description = "Attempt to update the information of a room.",
+			tags = {"room, crud"},
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Room info updated"),
+					@ApiResponse(responseCode = "404", description = "Room not found"),
+					@ApiResponse(responseCode = "500", description = "Internal error"),
+			}
+	)
+	public ResponseEntity<Room> updateRoom(@PathVariable Long roomId, @RequestBody RoomDTO roomDTO) {
+		Room updateRoom = roomFacade.updateRoom(roomId, roomDTO);
+		return ResponseEntity.ok(updateRoom);
+	}
 }

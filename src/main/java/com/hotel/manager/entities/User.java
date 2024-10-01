@@ -1,8 +1,11 @@
 package com.hotel.manager.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import com.hotel.manager.enums.BookingStatus;
 import com.hotel.manager.enums.UserType;
 
 import jakarta.persistence.Entity;
@@ -18,7 +21,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_user")
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class User implements Serializable {
+public abstract class User implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -36,13 +39,28 @@ public abstract class User implements Serializable {
 		
 	}
 
-	public User(Long id, String name, String email, String password, UserType userType) {
-		this.id = id;
+	public User(String name, String email, String password, UserType userType) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.userType = userType;
 	}
+	
+	public Booking createBooking(Room room, LocalDate checkIn, LocalDate checkOut, int guestsNumber) {
+        double total = calculateTotal(checkIn, checkOut, room.getDiaryValue());
+        return new Booking(null, checkIn, checkOut, BookingStatus.WAITING_PAYMENT, total, room, guestsNumber);
+    }
+	
+	public Booking createBooking(Client client, Room room, LocalDate checkIn, LocalDate checkOut, int guestsNumber) {
+		double total = calculateTotal(checkIn, checkOut, room.getDiaryValue());
+        return new Booking(client, checkIn, checkOut, BookingStatus.WAITING_PAYMENT, total, room, guestsNumber);
+		
+	}
+
+    protected double calculateTotal(LocalDate checkIn, LocalDate checkOut, double diaryValue) {
+        long days = ChronoUnit.DAYS.between(checkIn, checkOut);
+        return days * diaryValue;
+    }	
 
 	public Long getId() {
 		return id;
@@ -101,7 +119,4 @@ public abstract class User implements Serializable {
 		return Objects.equals(email, other.email) && userType == other.userType;
 	}
 
-	public boolean isEnabled() {
-		return true;
-	}
 }

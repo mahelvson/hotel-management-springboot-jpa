@@ -15,7 +15,7 @@ public class Manager extends User {
 
 	}
 
-	public Manager(Long id, String nome, String email, String password, UserType userType) {
-		super(id, nome, email, password, userType);
+	public Manager(String nome, String email, String password, UserType userType) {
+		super(nome, email, password, userType);
 	}
 }

@@ -35,9 +35,7 @@ public class Hotel implements Serializable{
 		
 	}
 	
-	public Hotel(Long id, String hotelName, String city, Integer stars) {
-		super();
-		this.id = id;
+	public Hotel(String hotelName, String city, Integer stars) {
 		this.hotelName = hotelName;
 		this.city = city;
 		this.stars = stars;
@@ -49,10 +47,6 @@ public class Hotel implements Serializable{
 	
 	public Long getId() {
 		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
 	}
 	
 	public String getName() {

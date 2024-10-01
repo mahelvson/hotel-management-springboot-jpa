@@ -48,10 +48,8 @@ public class Room implements Serializable{
 		
 	}
 	
-	public Room(Long id, Integer singleBeds, Integer coupleBeds, Double diaryValue,
+	public Room(Integer singleBeds, Integer coupleBeds, Double diaryValue,
 			Hotel hotel, Integer roomNumber) {
-		
-		this.id = id;
 		this.capacity = singleBeds * 1 + coupleBeds * 2;
 		this.singleBeds = singleBeds;
 		this.coupleBeds = coupleBeds;
@@ -143,9 +141,5 @@ public class Room implements Serializable{
 			return false;
 		Room other = (Room) obj;
 		return Objects.equals(id, other.id);
-	}
-	
-	
-	
-	
+	}	
 }

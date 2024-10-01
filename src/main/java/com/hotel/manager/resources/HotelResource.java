@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.manager.dto.HotelDTO;
 import com.hotel.manager.entities.Hotel;
 import com.hotel.manager.facade.HotelFacade;
 
@@ -57,10 +59,10 @@ public class HotelResource {
 			}
 	)
     public ResponseEntity<Hotel> findById(@PathVariable Long id) {
-		Hotel hotel = hotelFacade.getHotelById(id);
+		Hotel hotel = hotelFacade.findHotelById(id);
         return ResponseEntity.ok().body(hotel);
     }
-	@GetMapping(value = "/name/{name}")
+	@GetMapping(value = "/name")
 	@Tag(name="Hotel")
 	@Operation(
 			summary = "Search a hotel by name",
@@ -72,7 +74,7 @@ public class HotelResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-    public ResponseEntity<Hotel> findByName(@PathVariable String name) {
+    public ResponseEntity<Hotel> findByName(@RequestParam String name) {
 		Hotel hotel = hotelFacade.getHotelByName(name);
         return ResponseEntity.ok().body(hotel);
     }
@@ -103,11 +105,11 @@ public class HotelResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Hotel> createHotel(@RequestParam String hotelName, @RequestParam String city, @RequestParam Integer stars) {
-		Hotel hotel = hotelFacade.createHotel(hotelName, city, stars);
+	public ResponseEntity<Hotel> createHotel(@RequestBody HotelDTO hotelDTO) {
+		Hotel hotel = hotelFacade.createHotel(hotelDTO);
 		return ResponseEntity.ok(hotel);
 	}
-	@PatchMapping(value="/update")
+	@PatchMapping(value="/update/{hotelId}")
 	@Tag(name="Hotel")
 	@Operation(
 			summary = "Update a hotel registration",
@@ -119,9 +121,8 @@ public class HotelResource {
 					@ApiResponse(responseCode = "500", description = "Internal error"),
 			}
 	)
-	public ResponseEntity<Hotel> updateHotel(@RequestParam String hotelName, @RequestParam String city, @RequestParam Integer stars) {
-		Hotel updatedHotel = hotelFacade.updateHotel(hotelName, city, stars);
-		
+	public ResponseEntity<Hotel> updateHotel(@PathVariable Long hotelId, @RequestBody HotelDTO hotelDTO) {
+		Hotel updatedHotel = hotelFacade.updateHotel(hotelId, hotelDTO);
 		return ResponseEntity.ok(updatedHotel);
 	}
 	@DeleteMapping(value = "/delete")

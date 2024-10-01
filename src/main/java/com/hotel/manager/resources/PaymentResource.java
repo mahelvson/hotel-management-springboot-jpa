@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +55,23 @@ public class PaymentResource {
 	)
     public ResponseEntity<Payment> findById(@PathVariable Long id) {
 		Payment payment = paymentFacade.getPaymentById(id);
+        return ResponseEntity.ok().body(payment);
+    }
+	
+	@PostMapping(value = "/confirmPayment/{id}")
+	@Tag(name="Payment")
+	@Operation(
+			summary = "Search a payment by ID",
+			description = "Return a single payment information passing its ID",
+			tags = {"payment"},
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Payment info listed"),
+					@ApiResponse(responseCode = "404", description = "Payment not found"),
+					@ApiResponse(responseCode = "500", description = "Internal error"),
+			}
+	)
+    public ResponseEntity<Payment> confirmPayment(@PathVariable Long id) {
+		Payment payment = paymentFacade.confirmPayment(id);
         return ResponseEntity.ok().body(payment);
     }
 }
