@@ -22,20 +22,24 @@ import com.hotel.manager.interfaces.UserServiceInterface;
 public class UserFacade {
 
     @Autowired
-    UserServiceInterface userService;
+    private UserServiceInterface userService;
 
     @Autowired
-    ClientServiceInterface clientService;
+    private ClientServiceInterface clientService;
 
     @Autowired
-    ReceptionistServiceInterface receptionistService;
+    private ReceptionistServiceInterface receptionistService;
 
     @Autowired
-    ManagerServiceInterface managerService;
+    private ManagerServiceInterface managerService;
 
     public User createUser(UserDTO userDTO) {
         if (userDTO == null) {
             throw new IllegalArgumentException("User data cannot be null");
+        }
+        
+        if (userDTO.getUserType() == null) {
+            throw new InvalidUserTypeException("User type cannot be null");
         }
 
         switch (userDTO.getUserType()) {

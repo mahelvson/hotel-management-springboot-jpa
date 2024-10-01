@@ -64,7 +64,7 @@ public class BookingFacadeIntegrationTest {
 
     @Test
     @Transactional
-    public void testCreateBookingForSelf_Success() {
+    public void testCreateBookingForSelfSuccess() {
         Booking booking = bookingFacade.createBookingForSelf(bookingDTO);
 
         assertNotNull(booking);
@@ -75,7 +75,7 @@ public class BookingFacadeIntegrationTest {
 
     @Test
     @Transactional
-    public void testFindBookingById_Success() {
+    public void testFindBookingByIdSuccess() {
         Booking createdBooking = bookingFacade.createBookingForSelf(bookingDTO);
 
         Booking foundBooking = bookingFacade.findBookingById(createdBooking.getId());
@@ -85,7 +85,7 @@ public class BookingFacadeIntegrationTest {
 
     @Test
     @Transactional
-    public void testFindBookingById_NotFound() {
+    public void testFindBookingByIdNotFound() {
         assertThrows(BookingNotFoundException.class, () -> {
             bookingFacade.findBookingById(999L);
         });
@@ -93,7 +93,7 @@ public class BookingFacadeIntegrationTest {
 
     @Test
     @Transactional
-    public void testCreateBookingForSelf_InvalidData() {
+    public void testCreateBookingForSelfInvalidData() {
         bookingDTO.setClientId(null);
 
         assertThrows(InvalidDataException.class, () -> {

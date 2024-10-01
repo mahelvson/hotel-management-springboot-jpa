@@ -53,7 +53,7 @@ public class BookingFacadeUnitTest {
         room.setId(1L);
         room.setRoomNumber(101);
         room.setCapacity(2);
-        room.setDiaryValue(100.0);
+        room.setDiaryValue(200.0);
 
         bookingDTO = new BookingDTO();
         bookingDTO.setClientId(1L);
@@ -65,7 +65,7 @@ public class BookingFacadeUnitTest {
 
     
     @Test
-    public void testCreateBookingForSelf_InvalidData() {
+    public void testCreateBookingForSelfInvalidData() {
 
         bookingDTO.setClientId(null);
 
