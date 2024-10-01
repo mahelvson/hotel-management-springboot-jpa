@@ -24,13 +24,12 @@ public class OpenApiConfig {
 								.url("https://www.mahelvson.com")))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Hotel").description("Operations related to hotels"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Room").description("Operations related to rooms"))
-				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Manager").description("Operations related to the manager"))
+				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("User").description("Operations related to the users"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Receptionist").description("Operations related to receptionists"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Client").description("Operations related to clients"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Booking").description("Operations related to bookings"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Payment").description("Operations related to payments"))
 				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Report").description("Operations related to report generation"))
-				.addTagsItem(new io.swagger.v3.oas.models.tags.Tag().name("Login").description("Operations related to authentication"))
 				.addSecurityItem(new SecurityRequirement());		
 						
 	}
