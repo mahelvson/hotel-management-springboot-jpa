@@ -24,7 +24,7 @@ import com.hotel.manager.services.RoomService;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class BookingFacadeIntegrationTest {
+class BookingFacadeIntegrationTest {
 
     @Autowired
     private BookingFacade bookingFacade;

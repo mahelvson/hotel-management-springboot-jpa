@@ -2,6 +2,7 @@ package com.hotel.manager.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.manager.enums.BookingStatus;
@@ -137,6 +138,27 @@ public class Booking implements Serializable{
             payment.setBooking(this);
         }
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookingStatus, client, dateCheckIn, dateCheckOut, guestsNumber, id, payment, room, total);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Booking other = (Booking) obj;
+		return bookingStatus == other.bookingStatus && Objects.equals(client, other.client)
+				&& Objects.equals(dateCheckIn, other.dateCheckIn) && Objects.equals(dateCheckOut, other.dateCheckOut)
+				&& Objects.equals(guestsNumber, other.guestsNumber) && Objects.equals(id, other.id)
+				&& Objects.equals(payment, other.payment) && Objects.equals(room, other.room)
+				&& Objects.equals(total, other.total);
+	}
 	
 	
 }

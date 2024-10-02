@@ -26,7 +26,7 @@ import com.hotel.manager.facade.UserFacade;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class UserFacadeIntegrationTest {
+class UserFacadeIntegrationTest {
 
     @Autowired
     private UserFacade userFacade;

@@ -20,7 +20,7 @@ import com.hotel.manager.services.BookingService;
 import com.hotel.manager.services.ClientService;
 import com.hotel.manager.services.RoomService;
 
-public class BookingFacadeUnitTest {
+class BookingFacadeUnitTest {
 
     private BookingFacade bookingFacade;
     private BookingServiceInterface bookingService;
