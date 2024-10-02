@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_receptionist")
 public class Receptionist extends User {
-
+	// Classe que representa recepcionista. Ele pode criar reservas adicionando descontos mais altos que clientes VIP.
 	private static final long serialVersionUID = 1L;
 	
 	public boolean canGrantDiscount;
@@ -31,7 +31,7 @@ public class Receptionist extends User {
         
         
         if (this.isCanGrantDiscount()) {
-            total *= 0.95;
+            total *= 0.85;
         }
 
         

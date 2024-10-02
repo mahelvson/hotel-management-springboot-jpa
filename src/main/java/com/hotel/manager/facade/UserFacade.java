@@ -12,6 +12,7 @@ import com.hotel.manager.entities.Receptionist;
 import com.hotel.manager.entities.User;
 import com.hotel.manager.enums.UserType;
 import com.hotel.manager.exceptions.InvalidUserTypeException;
+import com.hotel.manager.exceptions.UserAlreadyExistisException;
 import com.hotel.manager.exceptions.UserNotFoundException;
 import com.hotel.manager.interfaces.ClientServiceInterface;
 import com.hotel.manager.interfaces.ManagerServiceInterface;
@@ -40,6 +41,12 @@ public class UserFacade {
         
         if (userDTO.getUserType() == null) {
             throw new InvalidUserTypeException("User type cannot be null");
+        }
+              
+        Client existingClient = clientService.findByEmail(userDTO.getEmail());
+        
+        if (existingClient != null) {
+        	throw new UserAlreadyExistisException("This email is already registered");
         }
 
         switch (userDTO.getUserType()) {

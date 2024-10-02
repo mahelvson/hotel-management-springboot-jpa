@@ -22,7 +22,7 @@ import jakarta.persistence.Table;
 @Table(name = "tb_user")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class User implements Serializable  {
-
+	// Classe abstrata que representa um objeto do tipo Usuário no sistema.
 	private static final long serialVersionUID = 1L;
 	
 	@Id

@@ -21,6 +21,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_booking")
 public class Booking implements Serializable{
+	// Classe que representa um objeto Booking, representado a reserva.
 	
 	private static final long serialVersionUID = 1L;
 	

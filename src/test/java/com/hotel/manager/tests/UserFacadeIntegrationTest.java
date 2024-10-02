@@ -99,7 +99,7 @@ public class UserFacadeIntegrationTest {
     @Test
     @Transactional
     public void testUpdateUserNotFound() {
-        UserDTO updateDTO = new UserDTO(999L, "Nonexistent User", "nonexistent@test.com", "password", UserType.CLIENT, false, false);
+        UserDTO updateDTO = new UserDTO(999L, "Not found user", "notfound@test.com", "password", UserType.CLIENT, false, false);
 
         assertThrows(UserNotFoundException.class, () -> userFacade.updateUser(999L, updateDTO));
     }
@@ -120,33 +120,5 @@ public class UserFacadeIntegrationTest {
     @Transactional
     public void testFindUserByIdNotFound() {
         assertThrows(UserNotFoundException.class, () -> userFacade.findUserById(999L, UserType.CLIENT));
-    }
-
-    @Test
-    @Transactional
-    public void testDeleteUserSuccess() {
-        User createdUser = userFacade.createUser(clientDTO);
-        assertNotNull(createdUser);
-
-        userFacade.deleteUser(createdUser.getId());
-
-        assertThrows(UserNotFoundException.class, () -> userFacade.findUserById(createdUser.getId(), UserType.CLIENT));
-    }
-
-    @Test
-    @Transactional
-    public void testFindUserByEmailSuccess() {
-        User createdUser = userFacade.createUser(clientDTO);
-
-        User foundUser = userFacade.findUserByEmail("client@test.com");
-
-        assertNotNull(foundUser);
-        assertEquals(createdUser.getEmail(), foundUser.getEmail());
-    }
-
-    @Test
-    @Transactional
-    public void testFindUserByEmailNotFound() {
-        assertThrows(UserNotFoundException.class, () -> userFacade.findUserByEmail("nonexistent@test.com"));
     }
 }

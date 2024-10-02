@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_client")
 public class Client extends User {
-	
+	//Classe que representa um objeto do tipo Cliente, que pode criar reservas por si só.
 	private static final long serialVersionUID = 1L;
 	
 	@OneToMany(mappedBy="client", cascade=CascadeType.ALL)

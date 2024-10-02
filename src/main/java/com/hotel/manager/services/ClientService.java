@@ -20,10 +20,12 @@ public class ClientService implements ClientServiceInterface{
 		return clientRepository.findAll();
 	}
 	
+	@Override
 	public Client findById(Long id) {
 		return clientRepository.findClientById(id);
 	}
 	
+	@Override
 	public Client findByEmail(String email) {
 		return clientRepository.findClientByEmail(email);
 	}

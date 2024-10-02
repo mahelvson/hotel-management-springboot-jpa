@@ -20,7 +20,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_payment")
 public class Payment implements Serializable {
-
+	// Classe do objeto que representa um objeto do tipo Pagamento.
 	private static final long serialVersionUID = 1L;
 	
 	@Id

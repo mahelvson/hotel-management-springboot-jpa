@@ -6,7 +6,7 @@ import com.hotel.manager.enums.PaymentMethod;
 import com.hotel.manager.enums.PaymentStatus;
 
 public class BookingReport {
-
+	// Representa um objeto do tipo Relatório, que concentra informações de reservas e dados de várias classes de negócio, envolvida na criação e confirmação de uma reserv.
     private Long id;
     private String clientName;
     private String clientEmail;

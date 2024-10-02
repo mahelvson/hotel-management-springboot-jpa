@@ -22,7 +22,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="tb_room")
 public class Room implements Serializable{
-	
+	// Classe que representa um objeto do tipo Quarto.
 	private static final long serialVersionUID = 1L;
 	
 	@Id
